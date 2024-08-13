@@ -1,1 +1,1 @@
-echo "pnpx lint-staged" > .husky/pre-commit
+pnpx lint-staged
