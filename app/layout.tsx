@@ -3,6 +3,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { css, cx } from '@/styled-system/css'
 
+import { ColorModeProvider } from './components/ColorModeProvider'
+import { ColorModeToggle } from './components/ColorModeToggle'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,14 +19,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='ja'>
-      <body
-        className={cx(
-          css({ background: 'hsl(var(--card-foreground))' }),
-          inter.className,
-        )}
-      >
-        {children}
+    <html lang='ja' data-color-mode='light'>
+      <body className={cx(css({ backgroundColor: 'background' }), inter.className)}>
+        <ColorModeProvider>
+          <ColorModeToggle />
+          {children}
+        </ColorModeProvider>
       </body>
     </html>
   )

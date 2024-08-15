@@ -1,11 +1,13 @@
+'use client'
 import type React from 'react'
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
 
-type ColorMode = 'light' | 'dark'
+type ColorMode = 'light' | 'dark' | 'system'
 
 type ColorModeContextType = {
   colorMode: ColorMode
   setColorMode: (mode: ColorMode) => void
+  effectiveColorMode: 'light' | 'dark'
 }
 
 const ColorModeContext = createContext<ColorModeContextType | undefined>(undefined)
@@ -24,26 +26,52 @@ type Props = {
 }
 
 export const ColorModeProvider: React.FC<Props> = ({ children }) => {
-  const [colorMode, setColorMode] = useState<ColorMode>(() => {
+  const [colorMode, setColorMode] = useState<ColorMode>('light')
+
+  useEffect(() => {
+    //ブラウザ環境であれば以下の処理を実行
     if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('colorMode') as ColorMode
-      return savedMode || 'light'
+      const savedMode = localStorage.getItem('colorMode') as ColorMode | null
+      if (savedMode) {
+        setColorMode(savedMode)
+      }
     }
-    return 'light'
-  })
+  }, [])
+
+  const [effectiveColorMode, setEffectiveColorMode] = useState<'light' | 'dark'>('light')
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+    const updateEffectiveColorMode = () => {
+      if (colorMode === 'system') {
+        setEffectiveColorMode(mediaQuery.matches ? 'dark' : 'light')
+      } else {
+        setEffectiveColorMode(colorMode)
+      }
+    }
+
+    updateEffectiveColorMode()
+
+    mediaQuery.addEventListener('change', updateEffectiveColorMode)
+
+    return () => {
+      mediaQuery.addEventListener('change', updateEffectiveColorMode)
+    }
+  }, [colorMode])
 
   useEffect(() => {
     localStorage.setItem('colorMode', colorMode)
 
-    if (colorMode === 'dark') {
-      document.documentElement.classList.add('dark')
+    if (effectiveColorMode === 'dark') {
+      document.documentElement.dataset.colorMode = 'dark'
     } else {
-      document.documentElement.classList.remove('dark')
+      document.documentElement.dataset.colorMode = 'light'
     }
-  }, [colorMode])
+  }, [colorMode, effectiveColorMode])
 
   return (
-    <ColorModeContext.Provider value={{ colorMode, setColorMode }}>
+    <ColorModeContext.Provider value={{ colorMode, setColorMode, effectiveColorMode }}>
       {children}
     </ColorModeContext.Provider>
   )
