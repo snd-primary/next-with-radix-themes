@@ -1,9 +1,9 @@
-'use client'
-import React from 'react'
-import { useColorMode } from './ColorModeProvider'
+'use client';
+import React from 'react';
+import { useColorMode } from './ColorModeProvider';
 
 export const ColorModeToggle = () => {
-  const { colorMode, setColorMode, effectiveColorMode } = useColorMode()
+  const { colorMode, setColorMode, effectiveColorMode } = useColorMode();
 
   const handleToggle = () => {
     setColorMode(
@@ -13,9 +13,9 @@ export const ColorModeToggle = () => {
           : 'light'
         : colorMode === 'light'
           ? 'dark'
-          : 'system',
-    )
-  }
+          : 'system'
+    );
+  };
 
   return (
     <button type='button' onClick={handleToggle}>
@@ -25,5 +25,5 @@ export const ColorModeToggle = () => {
           ? 'light'
           : 'Dark'}
     </button>
-  )
-}
+  );
+};
