@@ -1,5 +1,8 @@
 import { defineConfig } from '@pandacss/dev'
 
+import { tokens } from './theme/tokens'
+import { semanticTokens } from './theme/semantic-tokens'
+
 export default defineConfig({
   // Whether to use css reset
   preflight: true,
@@ -13,52 +16,13 @@ export default defineConfig({
 
   // Files to exclude
   exclude: [],
+  conditions: {},
 
   // Useful for theme customization
   theme: {
     extend: {
-      semanticTokens: {
-        colors: {
-          background: {
-            DEFAULT: { value: '#fafafa' },
-            _dark: { value: '#18181b' },
-          },
-          foreground: {
-            DEFAULT: { value: '#d4d4d8' },
-            _dark: { value: '#3f3f46' },
-          },
-          card: {
-            DEFAULT: { value: '#d4d4d8' },
-            _dark: { value: '#71717a' },
-          },
-          cardForeground: {
-            DEFAULT: { value: '#d4d4d8' },
-            _dark: { value: '#71717a' },
-          },
-          popover: {
-            DEFAULT: { value: '#a1a1aa' },
-            _dark: { value: '#52525b' },
-          },
-          popoverForeground: {},
-          text: {
-            DEFAULT: { value: '#18181b' },
-            _dark: { value: '#fafafa' },
-          },
-          primary: {},
-          primaryForeground: {},
-          secondary: {},
-          secondaryForeground: {},
-          muted: {},
-          mutedForeground: {},
-          accent: {},
-          accentForeground: {},
-          destructive: {},
-          destructiveForeground: {},
-          border: {},
-          input: {},
-          ring: {},
-        },
-      },
+      tokens,
+      semanticTokens,
     },
   },
 
