@@ -4,7 +4,8 @@ import React from 'react';
 const container = css({
   w: 'full',
   h: 'full',
-  background: 'secondary'
+  border: '1px solid',
+  borderColor: 'border'
 });
 
 export const Sidebar = () => {

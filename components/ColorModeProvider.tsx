@@ -1,5 +1,5 @@
 'use client';
-import type React from 'react';
+
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 
 type ColorMode = 'light' | 'dark' | 'system';
@@ -26,7 +26,7 @@ type Props = {
 };
 
 export const ColorModeProvider: React.FC<Props> = ({ children }) => {
-  const [colorMode, setColorMode] = useState<ColorMode>('light');
+  const [colorMode, setColorMode] = useState<ColorMode>('system');
 
   //localStorageへアクセスは副作用になるためuseEffectで実行
   useEffect(() => {
